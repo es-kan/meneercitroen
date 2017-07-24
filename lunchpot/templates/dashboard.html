@@ -1,8 +1,19 @@
 {% extends "user_base.html" %}
 
+{% load currency %}
+
 {% block content %}
-{{ people }}
-{{ lunches }}
-{{ groceries }}
-{{ user }}
+  <p>Welkom, {{ user }}.</p>
+  <span><a href="{% url 'logout' %}">Log out.</a></span>
+  {% if user.person %}
+  <p>Je totale inleg is &#8364;{{ user.person.deposit|format }}.</p>
+  <p>Je huidige budget is &#8364;{{user.person.get_balance|format }}.</p>
+  {% endif %}
+
+  {% if user.is_superuser %}
+  {% include 'snippets/admin_details.html' %}
+  {% endif %}
+
+  {% include 'snippets/lunchevent_table.html' %}
+  {% include 'snippets/groceries_table.html' %}
 {% endblock content %}

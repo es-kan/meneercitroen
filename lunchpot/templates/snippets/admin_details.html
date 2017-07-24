@@ -1,0 +1,36 @@
+{% load currency %}
+
+<h2>Detailed overview</h2>
+<h3>Deelnemers</h3>
+<table>
+  <tr>
+    <th>Persoon</th>
+    <th>Inleg</th>
+    <th>Aantal keer meegedaan</th>
+    <th>Balans</th>
+  </tr>
+  {% for person in people %}
+  <tr>
+    <td>{{ person }}</td>
+    <td>{{ person.deposit }}</td>
+    <td>{{ person.get_times_joined }}</td>
+    <td {% if person.has_debt %}style="color:red;"{% endif %}>{{ person.get_balance|format }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h3>Boodschappen</h3>
+<table>
+  <tr>
+    <th>Totaal</th>
+    <th>Totale prijs</th>
+    <th>Gemiddeld/keer</th>
+    <th>Gemiddeld/lunch</th>
+  </tr>
+  <tr>
+    <td>{{ groceries.count }}</td>
+    <td>{{ grocery_data.total_price }}</td>
+    <td>{{ grocery_data.average }}</td>
+    <td>{{ grocery_data.average_per_lunch }}</td>
+  </tr>
+</table>

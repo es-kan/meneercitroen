@@ -15,7 +15,11 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-        context['people'] = Person.objects.all()
-        context['lunches'] = LunchEvent.objects.all()
+        if self.request.user.is_superuser:
+            context['lunches'] = LunchEvent.objects.all()
+            context['people'] = Person.objects.all()
+            context['grocery_data'] = GroceryEvent.objects.get_data()
+        else:
+            context['lunches'] = LunchEvent.objects.with_person(self.request.user.person)
         context['groceries'] = GroceryEvent.objects.all()
         return context

@@ -1,0 +1,13 @@
+<h2>Boodschappen:</h2>
+<table>
+  <tr>
+    <th>Datum</th>
+    <th>Prijs</th>
+  </tr>
+  {% for event in groceries %}
+  <tr>
+    <td>{{ event.date_modified }}</td>
+    <td>&#8364;{{ event.get_price }}</td>
+  </tr>
+  {% endfor %}
+</table>

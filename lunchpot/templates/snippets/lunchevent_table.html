@@ -1,0 +1,19 @@
+<h2>Lunches:</h2>
+<table>
+  <tr>
+    <th>Datum</th>
+    <th>Deelnemers</th>
+  </tr>
+  {% for event in lunches %}
+  <tr>
+    <td>{{ event.date_modified }}</td>
+    <td>
+      <ul style="list-style-type:none">
+        {% for person in event.participants.all %}
+          <li>{{ person }}</li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endfor %}
+</table>

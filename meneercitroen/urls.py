@@ -7,6 +7,7 @@ from views import IndexView
 urlpatterns = [
     url(r'^$', view=IndexView.as_view(), name='index'),
     url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/logout/$', auth_views.logout, name='logout', kwargs={'next_page': '/'}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^lunch/', include('lunchpot.urls')),
 ]

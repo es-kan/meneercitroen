@@ -47,6 +47,9 @@ class Person(models.Model):
         else:
             return 0
 
+    def get_times_joined(self):
+        return len(self.lunchevent_set.all())
+
     def has_debt(self):
         return self.get_balance() < 0
 
@@ -66,13 +69,19 @@ class Event(models.Model):
         ''' On save, update timestamps '''
         if not self.id:
             self.date_created = datetime.date.today()
-            self.date_modified = datetime.date.today()
         return super(Event, self).save(*args, **kwargs)
 
 
 class GroceryEventManager(models.Manager):
     def total_price(self):
         return GroceryEvent.objects.all().aggregate(total=models.Sum('price'))['total']
+
+    def get_data(self):
+        data = {}
+        data['total_price'] = self.total_price()
+        data['average'] = data['total_price'] / len(GroceryEvent.objects.all())
+        data['average_per_lunch'] = data['total_price'] / len(LunchEvent.objects.all())
+        return data
 
 
 class GroceryEvent(Event):
@@ -82,10 +91,16 @@ class GroceryEvent(Event):
     def __unicode__(self):
         return "{date}: {price}".format(date=self.date_modified, price=format_currency(self.price))
 
+    def get_price(self):
+        return format_currency(self.price)
+
 
 class LunchEventManager(models.Manager):
     def total_cost(self):
         return LunchEvent.objects.all().aggregate(total=models.Sum('cost'))['total']
+
+    def with_person(self, person):
+        return LunchEvent.objects.filter(participants=person)
 
 
 class LunchEvent(Event):
