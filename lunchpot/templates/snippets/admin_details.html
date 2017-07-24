@@ -1,6 +1,9 @@
 {% load currency %}
 
 <h2>Detailed overview</h2>
+
+<p>Totaal in pot: {{ total_balance|format }}</p>
+
 <h3>Deelnemers</h3>
 <table>
   <tr>
@@ -12,9 +15,9 @@
   {% for person in people %}
   <tr>
     <td>{{ person }}</td>
-    <td>{{ person.deposit }}</td>
+    <td>&#8364;{{ person.deposit|format }}</td>
     <td>{{ person.get_times_joined }}</td>
-    <td {% if person.has_debt %}style="color:red;"{% endif %}>{{ person.get_balance|format }}</td>
+    <td {% if person.has_debt %}style="color:red;"{% endif %}>&#8364;{{ person.get_balance|format }}</td>
   </tr>
   {% endfor %}
 </table>
@@ -29,8 +32,8 @@
   </tr>
   <tr>
     <td>{{ groceries.count }}</td>
-    <td>{{ grocery_data.total_price }}</td>
-    <td>{{ grocery_data.average }}</td>
-    <td>{{ grocery_data.average_per_lunch }}</td>
+    <td>&#8364;{{ grocery_data.total_price|format }}</td>
+    <td>&#8364;{{ grocery_data.average|format }}</td>
+    <td>&#8364;{{ grocery_data.average_per_lunch|format }}</td>
   </tr>
 </table>

@@ -11,6 +11,16 @@ from functions import format_currency
 LUNCH_COST = 2.50
 
 
+class PersonManager(models.Manager):
+    def get_total_balance(self):
+        balance = 0.0
+        for person in Person.objects.all():
+            balance += person.deposit
+        for event in GroceryEvent.objects.all():
+            balance -= event.price
+        return balance
+
+
 class Person(models.Model):
     @classmethod
     def create(cls, name, deposit=0, debt=0):
@@ -18,6 +28,7 @@ class Person(models.Model):
         person.save()
         return person
 
+    objects = PersonManager()
     deposit = models.FloatField(default=0)
     user = models.OneToOneField(User)
 
@@ -55,6 +66,9 @@ class Person(models.Model):
 
     def get_debt(self):
         return self.get_balance() * -1 if self.has_debt() else 0
+
+    def get_positive_balance(self):
+        return self.get_balance() if not self.has_debt() else 0
 
 
 class Event(models.Model):

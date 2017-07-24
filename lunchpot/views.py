@@ -19,6 +19,7 @@ class DashboardView(TemplateView):
             context['lunches'] = LunchEvent.objects.all()
             context['people'] = Person.objects.all()
             context['grocery_data'] = GroceryEvent.objects.get_data()
+            context['total_balance'] = Person.objects.get_total_balance()
         else:
             context['lunches'] = LunchEvent.objects.with_person(self.request.user.person)
         context['groceries'] = GroceryEvent.objects.all()
