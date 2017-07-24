@@ -1,0 +1,18 @@
+#don't store compiled python
+*.pyc
+
+#ignore editor temp-files
+*~
+
+#ignore the sqlite db
+*.db
+*.sqlite
+*.sqlite3
+
+#ignore the sitepackages
+site-packages/*
+
+# ignore src en build
+src/*
+build/*
+*.bat
