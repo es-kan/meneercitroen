@@ -4,12 +4,12 @@ from models import GroceryEvent, LunchEvent, Person
 
 class EventAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, *args, **kwargs):
-        return ("date_created", "date_modified",)
+        return ("date_created",)
 
 
 @admin.register(GroceryEvent)
 class GroceryEventAdmin(EventAdmin):
-    pass
+    list_display = ('date_modified', 'price', 'notes',)
 
 
 @admin.register(LunchEvent)
@@ -19,4 +19,4 @@ class LunchEventAdmin(EventAdmin):
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_balance_formatted')
+    list_display = ('get_name', 'get_balance_formatted')
