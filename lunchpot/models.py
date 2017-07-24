@@ -91,10 +91,11 @@ class GroceryEventManager(models.Manager):
         return GroceryEvent.objects.all().aggregate(total=models.Sum('price'))['total']
 
     def get_data(self):
-        data = {}
-        data['total_price'] = self.total_price()
-        data['average'] = data['total_price'] / len(GroceryEvent.objects.all())
-        data['average_per_lunch'] = data['total_price'] / len(LunchEvent.objects.all())
+        data = {'total_price': 0.0, 'average': 0.0, 'average_per_lunch': 0.0}
+        if GroceryEvent.objects.all().exists():
+            data['total_price'] = self.total_price()
+            data['average'] = data['total_price'] / len(GroceryEvent.objects.all())
+            data['average_per_lunch'] = data['total_price'] / len(LunchEvent.objects.all())
         return data
 
 
