@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 
+from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator
 from django.db import models
 
@@ -18,14 +19,17 @@ class Person(models.Model):
         person.save()
         return person
 
-    name = models.CharField(max_length=255, validators=[MinLengthValidator(1)])
     deposit = models.FloatField(default=0)
+    user = models.OneToOneField(User)
 
     class Meta:
         verbose_name_plural = 'people'
 
     def __unicode__(self):
-        return self.name
+        return self.user.username
+
+    def get_name(self):
+        return self.user.username
 
     def deposit_money(self, amount):
         self.deposit += amount
@@ -39,7 +43,10 @@ class Person(models.Model):
     get_balance_formatted.short_description = "balance"
 
     def get_total_spent(self):
-        return self.lunchevent_set.aggregate(models.Sum('cost'))['cost__sum']
+        if self.lunchevent_set.exists():
+            return self.lunchevent_set.aggregate(models.Sum('cost'))['cost__sum']
+        else:
+            return 0
 
     def has_debt(self):
         return self.get_balance() < 0
@@ -49,8 +56,8 @@ class Person(models.Model):
 
 
 class Event(models.Model):
-    date_created = models.DateField(auto_now_add=True)
-    date_modified = models.DateField()
+    date_created = models.DateField(editable=False)
+    date_modified = models.DateField(verbose_name='Date')
     notes = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -60,7 +67,7 @@ class Event(models.Model):
         ''' On save, update timestamps '''
         if not self.id:
             self.date_created = datetime.date.today()
-        self.date_modified = datetime.date.today()
+            self.date_modified = datetime.date.today()
         return super(Event, self).save(*args, **kwargs)
 
 
