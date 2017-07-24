@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = BASE_DIR + '/meneercitroen/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -57,10 +58,15 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'meneercitroen.urls'
 
+TEMPLATE_DIRS = (
+    'meneercitroen/templates',
+    'lunchpot/templates',
+)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': TEMPLATE_DIRS,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
