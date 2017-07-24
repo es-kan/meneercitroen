@@ -1,5 +1,5 @@
-from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 
-def index(request):
-    return HttpResponse("Nothing here just yet.")
+class IndexView(TemplateView):
+    template_name = 'empty.html'
