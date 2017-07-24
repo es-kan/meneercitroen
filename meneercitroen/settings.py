@@ -29,8 +29,11 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+PROJECT_APPS = (
+    'lunchpot',
+)
 
-INSTALLED_APPS = (
+CORE_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 )
+
+INSTALLED_APPS = CORE_APPS + PROJECT_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 from django.core.validators import MinLengthValidator
 from django.db import models
 
@@ -47,11 +49,19 @@ class Person(models.Model):
 
 
 class Event(models.Model):
-    date = models.DateField(auto_now_add=True)
+    date_created = models.DateField(auto_now_add=True)
+    date_modified = models.DateField()
     notes = models.TextField(blank=True, null=True)
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.date_created = datetime.date.today()
+        self.date_modified = datetime.date.today()
+        return super(Event, self).save(*args, **kwargs)
 
 
 class GroceryEventManager(models.Manager):
@@ -64,7 +74,7 @@ class GroceryEvent(Event):
     price = models.FloatField()
 
     def __unicode__(self):
-        return "{date}: {price}".format(date=self.date, price=format_currency(self.price))
+        return "{date}: {price}".format(date=self.date_modified, price=format_currency(self.price))
 
 
 class LunchEventManager(models.Manager):
@@ -78,4 +88,4 @@ class LunchEvent(Event):
     cost = models.FloatField(default=LUNCH_COST)
 
     def __unicode__(self):
-        return "{date}: {participants}".format(date=self.date, participants=u', '.join([str(i) for i in self.participants.all()]))
+        return "{date}: {participants}".format(date=self.date_modified, participants=u', '.join([str(i) for i in self.participants.all()]))
