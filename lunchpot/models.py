@@ -16,6 +16,7 @@ class PersonManager(models.Manager):
         balance = 0.0
         for person in Person.objects.all():
             balance += person.deposit
+            balance -= person.get_debt()
         for event in GroceryEvent.objects.all():
             balance -= event.price
         return balance

@@ -3,6 +3,7 @@
   <tr>
     <th>Datum</th>
     <th>Deelnemers</th>
+    <th>Notities</th>
   </tr>
   {% for event in lunches %}
   <tr>
@@ -13,6 +14,9 @@
           <li>{{ person }}</li>
         {% endfor %}
       </ul>
+    </td>
+    <td style="text-align: center;">
+      {% if event.notes %}{{ event.notes }}{% endif %}
     </td>
   </tr>
   {% endfor %}

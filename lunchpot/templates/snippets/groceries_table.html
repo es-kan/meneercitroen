@@ -3,11 +3,13 @@
   <tr>
     <th>Datum</th>
     <th>Prijs</th>
+    <th>Notities</th>
   </tr>
   {% for event in groceries %}
   <tr>
     <td>{{ event.date_modified }}</td>
     <td>&#8364;{{ event.get_price }}</td>
+    <td style="text-align: center;">{% if event.notes %}{{ event.notes }}{% endif %}</td>
   </tr>
   {% endfor %}
 </table>
