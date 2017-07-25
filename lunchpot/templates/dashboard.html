@@ -7,7 +7,7 @@
   <span><a href="{% url 'logout' %}">Log out.</a></span>
   {% if user.person %}
   <p>Je totale inleg is &#8364;{{ user.person.deposit|format }}.</p>
-  <p>Je huidige budget is &#8364;{{user.person.get_balance|format }}.</p>
+  <p>Je huidige budget is <span {% if user.person.has_debt %}style="color:red;"{% endif %}>&#8364;{{user.person.get_balance|format }}</span>.</p>
   {% endif %}
 
   {% if user.is_superuser %}
