@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^accounts/logout/$', auth_views.logout, name='logout', kwargs={'next_page': '/'}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^lunch/', include('lunchpot.urls')),
+    # catch all other urls
+    url(r'^.*/$', view=IndexView.as_view()),
 ]
